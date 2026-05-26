@@ -1,14 +1,11 @@
-import React, { createContext, useState, useContext, useEffect } from 'react';
+﻿import React, { createContext, useState, useContext, useEffect } from 'react';
+import axios from 'axios';
 
 const AuthContext = createContext();
 
-export const useAuth = () => {
-  const context = useContext(AuthContext);
-  if (!context) {
-    throw new Error('useAuth debe usarse dentro de AuthProvider');
-  }
-  return context;
-};
+export const useAuth = () => useContext(AuthContext);
+
+const API_URL = 'http://localhost:5000/api';
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
@@ -25,26 +22,33 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (email, password) => {
     try {
-      // Por ahora simulado - luego conectaremos con el backend
-      const mockUser = { id: 1, name: 'Usuario', email };
-      localStorage.setItem('token', 'fake-token');
-      localStorage.setItem('user', JSON.stringify(mockUser));
-      setUser(mockUser);
+      const response = await axios.post(`${API_URL}/auth/login`, { email, password });
+      const { token, user } = response.data;
+      
+      localStorage.setItem('token', token);
+      localStorage.setItem('user', JSON.stringify(user));
+      setUser(user);
+      
       return { success: true };
     } catch (error) {
-      return { success: false, error: 'Error al iniciar sesión' };
+      const errorMsg = error.response?.data?.msg || 'Error al iniciar sesión';
+      return { success: false, error: errorMsg };
     }
   };
 
   const register = async (name, email, password) => {
     try {
-      const mockUser = { id: 1, name, email };
-      localStorage.setItem('token', 'fake-token');
-      localStorage.setItem('user', JSON.stringify(mockUser));
-      setUser(mockUser);
+      const response = await axios.post(`${API_URL}/auth/register`, { name, email, password });
+      const { token, user } = response.data;
+      
+      localStorage.setItem('token', token);
+      localStorage.setItem('user', JSON.stringify(user));
+      setUser(user);
+      
       return { success: true };
     } catch (error) {
-      return { success: false, error: 'Error al registrarse' };
+      const errorMsg = error.response?.data?.msg || 'Error al registrarse';
+      return { success: false, error: errorMsg };
     }
   };
 
