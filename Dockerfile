@@ -20,5 +20,5 @@ RUN cd frontend && npm run build
 # Exponer puerto
 EXPOSE 5000
 
-# Iniciar
-CMD ["sh", "-c", "cd backend && node server.js"]
+# Iniciar (CORREGIDO - sin cd)
+CMD node backend/server.js
