@@ -1,6 +1,6 @@
 ﻿import axios from "axios";
 
-// FORZADO: URL DIRECTA DE RAILWAY
+// URL DIRECTA DE RAILWAY (FORZADA)
 const API_URL = "https://chucknorrisoctavo-production-d7ea.up.railway.app/api";
 
 const api = axios.create({
