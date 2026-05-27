@@ -1,6 +1,7 @@
 ﻿import axios from "axios";
 
-const API_URL = "http://localhost:5000/api";
+// ✅ CAMBIADO: de localhost a Railway
+const API_URL = "https://chucknorrisoctavo-production-d7ea.up.railway.app/api";
 
 const api = axios.create({
   baseURL: API_URL,
