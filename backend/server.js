@@ -4,6 +4,14 @@ const mongoose = require('mongoose');
 const path = require('path');
 
 const app = express();
+
+// AUMENTAR TIMEOUT PARA IPHONE
+app.use((req, res, next) => {
+    req.setTimeout(60000); // 60 segundos para petición
+    res.setTimeout(60000); // 60 segundos para respuesta
+    next();
+});
+
 app.use(cors());
 app.use(express.json());
 
