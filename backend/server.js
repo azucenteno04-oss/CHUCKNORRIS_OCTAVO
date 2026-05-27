@@ -1,10 +1,14 @@
 ﻿const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
+const path = require('path'); // <--- AGREGADO (para servir el frontend)
 
 const app = express();
 app.use(cors());
 app.use(express.json());
+
+// <--- AGREGADO: Servir archivos estáticos del frontend
+app.use(express.static(path.join(__dirname, '../frontend/dist')));
 
 const MONGODB_URI = 'mongodb+srv://chuck:chuck123@cluster0.idyhflx.mongodb.net/chuck_norris';
 
@@ -67,6 +71,11 @@ app.post('/api/auth/login', async (req, res) => {
   } catch (error) {
     res.status(500).json({ msg: error.message });
   }
+});
+
+// <--- AGREGADO: Redirigir todas las rutas no API al frontend
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../frontend/dist', 'index.html'));
 });
 
 const PORT = 5000;
