@@ -72,9 +72,14 @@ app.post('/api/auth/login', async (req, res) => {
   }
 });
 
-// CORREGIDO: '/*' en lugar de '*'
-app.get('/*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../frontend/dist', 'index.html'));
+// Middleware para servir el frontend (sin usar comodines problemáticos)
+app.use((req, res, next) => {
+  // Si la ruta no es de API, servir index.html
+  if (!req.path.startsWith('/api')) {
+    res.sendFile(path.join(__dirname, '../frontend/dist', 'index.html'));
+  } else {
+    next();
+  }
 });
 
 const PORT = 5000;
