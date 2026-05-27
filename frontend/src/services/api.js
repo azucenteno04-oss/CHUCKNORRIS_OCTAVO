@@ -1,6 +1,5 @@
 ﻿import axios from "axios";
 
-// ✅ CAMBIADO: de localhost a Railway
 const API_URL = "https://chucknorrisoctavo-production-d7ea.up.railway.app/api";
 
 const api = axios.create({
